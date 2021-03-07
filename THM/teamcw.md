@@ -2,7 +2,7 @@
 * Run a Port Scan using NMAP
 `nmap -sV -sC -oA nmap/output <IP_ADDRESS_OF_MASCHINE>`
 
-* We can see that Port **21, 22** and **80** are open
+* We can see that Ports **21, 22** and **80** are open
 
 ```
 Nmap 7.80 scan initiated Fri Mar  5 21:49:20 2021 as: nmap -sV -sC -oA nmap/output teamcw
@@ -65,13 +65,13 @@ We now have FTP Credentials and can use them to login to the FTP service
 
 ![image](https://user-images.githubusercontent.com/78683952/110202739-fa8b5300-7e6a-11eb-9ab1-b9aef3554d17.png)
 
-* I then checked out the New_site.txt:
+* Next I checked out the New_site.txt:
 
 ![image](https://user-images.githubusercontent.com/78683952/110239455-38f64000-7f47-11eb-828b-bf4357747af5.png)
 
 
 It seems like we have to adjust the entry in our hosts file from **team.thm** to **dev.team.thm**
-Furthermore, the two names within the .txt file look like usernames.
+Furthermore, the two names within the .txt file look like usernames. Let's take a note of that.
 
 * Browsing to **dev.team.thm** shows us the following
 
@@ -105,7 +105,7 @@ What I almost always do first is `sudo -l`
 
 ![image](https://user-images.githubusercontent.com/78683952/110238487-3a713980-7f42-11eb-8caf-478c68087569.png)
 
-That looks interesting. Let's check out **/home/gyles/admin_checks**
+That looks interesting. Let's have a closer look **/home/gyles/admin_checks**
 
 ![image](https://user-images.githubusercontent.com/78683952/110238529-6c829b80-7f42-11eb-8113-feb52c8605ab.png)
 
@@ -124,7 +124,7 @@ We are now in the context of gyles.
 
 Gyles is a member of the admin group. Let's take a note of that.
 
-We are continuing our enumeration with **linpeas.sh** (https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS).
+I continued my search for possible privilege escalation vectors using linpeas **linpeas.sh** (https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS).
 
 The screenshot below shows something interesting:
 
@@ -142,7 +142,7 @@ Let's find out what it does:
 
 It basically just copies the content of one directory into another.
 
-Checking out the destination directory shows us that the task is being performed as root.
+Checking out the destination directory showed me that the task is being performed as **root**.
 
 ![image](https://user-images.githubusercontent.com/78683952/110239526-a4401200-7f47-11eb-87f2-2c0de2fed090.png)
 
@@ -154,7 +154,7 @@ And the good thing about it is, being a member of the admin group gives us write
 
 So all that's left to do is
 * starting a netcat listener
-* putting a reverse shell into main_backup.sh
+* putting a reverse shell into **main_backup.sh**
 * wait maximum 1 minute
 
 ![image](https://user-images.githubusercontent.com/78683952/110239760-e9187880-7f48-11eb-94a6-bcc272dc680e.png)
