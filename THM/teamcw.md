@@ -67,7 +67,8 @@ We now have FTP Credentials and can use them to login to the FTP service
 
 * I then checked out the New_site.txt:
 
-![image](https://user-images.githubusercontent.com/78683952/110202795-43dba280-7e6b-11eb-81bf-f7380ce1afec.png)
+![image](https://user-images.githubusercontent.com/78683952/110239455-38f64000-7f47-11eb-828b-bf4357747af5.png)
+
 
 It seems like we have to adjust the entry in our hosts file from **team.thm** to **dev.team.thm**
 Furthermore, the two names within the .txt file look like usernames.
@@ -87,14 +88,14 @@ Nice :)
 
 ![image](https://user-images.githubusercontent.com/78683952/110203009-14796580-7e6c-11eb-9871-203f47cfba80.png)
 
-* Being able to exploit this **Directory Traversal **/ **LFI Vulnerabilty** we can now try to find the **id_rsa** that was mentioned in the **New_site.txt** 
+* Being able to exploit this **Directory Traversal** / **LFI Vulnerabilty** we can now try to find the **id_rsa** that was mentioned in the **New_site.txt** 
 ** view-source:http://dev.team.thm/script.php?page=php://filter/resource=../../../../etc/ssh/sshd_config
 
 ![image](https://user-images.githubusercontent.com/78683952/110203090-6d48fe00-7e6c-11eb-9ca7-81992d6ec662.png)
 
 * We can now connect to the machine with the following command: `ssh -i id_rsa dale@dev.team.thm` and get the **user.txt**
 
-![image](https://user-images.githubusercontent.com/78683952/110203173-d92b6680-7e6c-11eb-9721-f1280cd13e88.png)
+![image](https://user-images.githubusercontent.com/78683952/110239403-f46aa480-7f46-11eb-8383-2015871a8ffb.png)
 
 
 # Steps to root.txt
