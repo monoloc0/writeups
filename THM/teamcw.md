@@ -1,4 +1,4 @@
-A writeup for the box team (https://tryhackme.com/room/teamcw)
+A writeup for the box **team** (https://tryhackme.com/room/teamcw)
 
 # Steps to user.txt
 * Run a Port Scan using NMAP
