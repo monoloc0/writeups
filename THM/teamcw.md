@@ -88,8 +88,8 @@ Nice :)
 
 ![image](https://user-images.githubusercontent.com/78683952/110203009-14796580-7e6c-11eb-9871-203f47cfba80.png)
 
-* Being able to exploit this **Directory Traversal** / **LFI Vulnerabilty** we can now try to find the **id_rsa** that was mentioned in the **New_site.txt** 
-** view-source:http://dev.team.thm/script.php?page=php://filter/resource=../../../../etc/ssh/sshd_config
+- Being able to exploit this **Directory Traversal** / **LFI Vulnerabilty** we can now try to find the **id_rsa** that was mentioned in the **New_site.txt** 
+  - view-source:http://dev.team.thm/script.php?page=php://filter/resource=../../../../etc/ssh/sshd_config
 
 ![image](https://user-images.githubusercontent.com/78683952/110203090-6d48fe00-7e6c-11eb-9ca7-81992d6ec662.png)
 
@@ -144,14 +144,21 @@ It basically just copies the content of one directory into another.
 
 Checking out the destination directory shows us that the task is being performed as root.
 
-And the good thing about it is, being a member of the admin group gives us write access to **/usr/local/bin/main_backup.sh***
+![image](https://user-images.githubusercontent.com/78683952/110239526-a4401200-7f47-11eb-87f2-2c0de2fed090.png)
+
+
+And the good thing about it is, being a member of the admin group gives us write access to **/usr/local/bin/main_backup.sh**
+
+![image](https://user-images.githubusercontent.com/78683952/110239698-8f17b300-7f48-11eb-8209-17530a0bf160.png)
+
 
 So all that's left to do is
 * starting a netcat listener
 * putting a reverse shell into main_backup.sh
 * wait maximum 1 minute
 
-![image](https://user-images.githubusercontent.com/78683952/110239267-5aa2f780-7f46-11eb-870e-2d73b1895f3c.png)
+![image](https://user-images.githubusercontent.com/78683952/110239760-e9187880-7f48-11eb-94a6-bcc272dc680e.png)
+
 
 * and of course get root.txt :)
 
