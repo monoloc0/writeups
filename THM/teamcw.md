@@ -59,7 +59,8 @@ Nmap done at Fri Mar  5 21:49:38 2021 -- 1 IP address (1 host up) scanned in 17.
 
 Voilà :) 
 
-![image](https://user-images.githubusercontent.com/78683952/110202655-7df87480-7e6a-11eb-814f-a3717c2f217a.png)
+![image](https://user-images.githubusercontent.com/78683952/110240335-b7ed7780-7f4b-11eb-8621-673f0419cc35.png)
+
 
 We now have FTP Credentials and can use them to login to the FTP service 
 
@@ -105,7 +106,7 @@ What I almost always do first is `sudo -l`
 
 ![image](https://user-images.githubusercontent.com/78683952/110238487-3a713980-7f42-11eb-8caf-478c68087569.png)
 
-That looks interesting. Let's have a closer look **/home/gyles/admin_checks**
+That looks interesting. Let's have a closer look at **/home/gyles/admin_checks**
 
 ![image](https://user-images.githubusercontent.com/78683952/110238529-6c829b80-7f42-11eb-8113-feb52c8605ab.png)
 
