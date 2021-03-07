@@ -1,3 +1,5 @@
+A writeup for the box team (https://tryhackme.com/room/teamcw)
+
 # Steps to user.txt
 * Run a Port Scan using NMAP
 `nmap -sV -sC -oA nmap/output <IP_ADDRESS_OF_MASCHINE>`
