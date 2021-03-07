@@ -125,7 +125,7 @@ We are now in the context of gyles.
 
 Gyles is a member of the admin group. Let's take a note of that.
 
-I continued my search for possible privilege escalation vectors using linpeas **linpeas.sh** (https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS).
+I continued my search for possible privilege escalation vectors using **linpeas.sh** (https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS).
 
 The screenshot below shows something interesting:
 
